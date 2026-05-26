@@ -102,7 +102,6 @@
       padding: 110px 32px 80px;
     }
 
-    /* WELCOME */
     .welcome-row {
       display: flex;
       align-items: center;
@@ -123,6 +122,12 @@
       color: #fff;
       flex-shrink: 0;
       position: relative;
+      overflow: hidden;
+    }
+    .avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
     }
     .avatar::after {
       content: '';
@@ -142,7 +147,6 @@
     }
     .welcome-text p { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
 
-    /* SECTION LABEL */
     .section-label {
       display: inline-block;
       font-size: 0.75rem;
@@ -153,7 +157,6 @@
       margin-bottom: 14px;
     }
 
-    /* STATS */
     .stats-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -172,15 +175,7 @@
       transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
     .stat-card:hover { transform: translateY(-4px); border-color: rgba(91,107,255,0.35); box-shadow: 0 12px 32px rgba(91,107,255,0.1); }
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+    .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent2)); opacity:0; transition:opacity 0.3s; }
     .stat-card:hover::before { opacity: 1; }
     .stat-value {
       font-family: 'Syne', sans-serif;
@@ -193,7 +188,6 @@
     }
     .stat-label { color: var(--muted); font-size: 0.78rem; margin-top: 6px; font-weight: 600; letter-spacing: 0.05em; }
 
-    /* QUICK ACTIONS */
     .actions-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -215,31 +209,13 @@
       position: relative;
       overflow: hidden;
     }
-    .action-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+    .action-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent2)); opacity:0; transition:opacity 0.3s; }
     .action-card:hover { transform: translateY(-4px); border-color: rgba(91,107,255,0.35); box-shadow: 0 12px 32px rgba(91,107,255,0.1); }
     .action-card:hover::before { opacity: 1; }
-    .action-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: rgba(91,107,255,0.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
+    .action-icon { width:40px; height:40px; border-radius:10px; background:rgba(91,107,255,0.12); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
     .action-label { font-weight: 700; font-size: 0.9rem; }
     .action-sub { color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
 
-    /* COURSES */
     .courses-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -259,15 +235,7 @@
       position: relative;
       overflow: hidden;
     }
-    .course-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+    .course-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent2)); opacity:0; transition:opacity 0.3s; }
     .course-card:hover { transform: translateY(-6px); border-color: rgba(91,107,255,0.4); box-shadow: 0 16px 40px rgba(91,107,255,0.12); }
     .course-card:hover::before { opacity: 1; }
     .course-card.locked { opacity: 0.45; pointer-events: none; }
@@ -275,10 +243,9 @@
     .course-title { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; }
     .course-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.65; margin-bottom: 18px; }
     .progress-wrap { background: var(--surface2); border-radius: 100px; height: 5px; overflow: hidden; }
-    .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.6s ease; }
+    .progress-fill { height:100%; border-radius:100px; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width 0.6s ease; }
     .progress-label { font-size: 0.75rem; color: var(--muted); margin-top: 8px; font-weight: 600; }
 
-    /* BADGES */
     .badges-section { animation: fadeUp 0.7s 0.6s ease both; }
     .badges-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
     .badge {
@@ -294,12 +261,7 @@
       color: var(--accent2);
       letter-spacing: 0.03em;
     }
-    .badge.locked {
-      background: var(--surface2);
-      border-color: var(--border);
-      color: var(--muted);
-      opacity: 0.6;
-    }
+    .badge.locked { background: var(--surface2); border-color: var(--border); color: var(--muted); opacity: 0.6; }
 
     footer {
       background: var(--surface);
@@ -321,8 +283,8 @@
     }
     footer p { color: var(--muted); font-size: 0.85rem; }
 
-    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes slideDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideDown{ from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
 
     @media (max-width: 700px) {
       header { padding: 16px 20px; }
@@ -345,7 +307,6 @@
 </header>
 
 <main>
-  <!-- Welcome -->
   <div class="welcome-row">
     <div class="avatar" id="user-avatar">?</div>
     <div class="welcome-text">
@@ -354,15 +315,14 @@
     </div>
   </div>
 
-  <!-- Stats -->
   <div class="section-label">Your Progress</div>
   <div class="stats-row">
     <div class="stat-card">
-      <div class="stat-value">0</div>
+      <div class="stat-value" id="stat-lessons">0</div>
       <div class="stat-label">Lessons Complete</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">0</div>
+      <div class="stat-value" id="stat-xp">0</div>
       <div class="stat-label">XP Earned</div>
     </div>
     <div class="stat-card">
@@ -375,7 +335,6 @@
     </div>
   </div>
 
-  <!-- Quick Actions -->
   <div class="section-label">Quick Actions</div>
   <div class="actions-grid">
     <a href="lessons.html" class="action-card">
@@ -408,15 +367,14 @@
     </a>
   </div>
 
-  <!-- Courses -->
   <div class="section-label">My Courses</div>
   <div class="courses-grid">
     <a href="lessons.html" class="course-card">
       <div class="course-icon">🧱</div>
       <div class="course-title">Block Coding Basics</div>
       <div class="course-desc">Build programs visually using AceBlocks drag-and-drop system. No syntax needed.</div>
-      <div class="progress-wrap"><div class="progress-fill" style="width:0%"></div></div>
-      <div class="progress-label">0% complete — Start now</div>
+      <div class="progress-wrap"><div class="progress-fill" id="course-progress-blocks" style="width:0%"></div></div>
+      <div class="progress-label" id="course-label-blocks">0% complete — Start now</div>
     </a>
     <a href="js_sandbox.html" class="course-card">
       <div class="course-icon">⚡</div>
@@ -434,15 +392,14 @@
     </div>
   </div>
 
-  <!-- Badges -->
   <div class="badges-section">
     <div class="section-label">Your Badges</div>
     <div class="badges-row">
       <span class="badge">🎉 Account Created</span>
-      <span class="badge locked">🏆 First Lesson</span>
+      <span class="badge locked" id="badge-first-lesson">🏆 First Lesson</span>
       <span class="badge locked">🔥 7-Day Streak</span>
       <span class="badge locked">⚡ First Challenge</span>
-      <span class="badge locked">🎓 Course Complete</span>
+      <span class="badge locked" id="badge-course-complete">🎓 Course Complete</span>
       <span class="badge locked">🌟 Top of Class</span>
     </div>
   </div>
@@ -454,34 +411,76 @@
   <p>Created by Jace Glover</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const { createClient } = supabase
+<script type="module">
+  import { initializeApp }      from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getAnalytics }       from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+  import { getAuth, onAuthStateChanged, signOut }
+                                from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-  const sb = createClient(
-    'https://tlyyujeszhnugowsdxjv.supabase.co',
-    'sb_publishable_iUCb6M303p54ge5_X2eSBQ_gp7a4avB'
-  )
+  const firebaseConfig = {
+    apiKey:            "AIzaSyA3PF0jklshcBZLm4Tm_-K10RUok15Mu3U",
+    authDomain:        "aceblocks.firebaseapp.com",
+    projectId:         "aceblocks",
+    storageBucket:     "aceblocks.firebasestorage.app",
+    messagingSenderId: "295224865929",
+    appId:             "1:295224865929:web:d82a392b52d2c856c58258",
+    measurementId:     "G-J0N2L9FGD9"
+  };
 
-  sb.auth.getUser().then(({ data: { user } }) => {
+  const app  = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, user => {
     if (!user) {
-      window.location.href = '/login.html'
-      return
+      window.location.href = "login.html";
+      return;
     }
-    const name = user.user_metadata?.display_name || user.email.split('@')[0]
-    const initials = name.slice(0, 2).toUpperCase()
-    document.getElementById('user-avatar').textContent = initials
-    document.getElementById('welcome-heading').textContent = `Welcome back, ${name}.`
-    document.getElementById('user-email-display').textContent = user.email
-  })
 
-  async function handleSignOut() {
-    await sb.auth.signOut()
-    window.location.href = '/login.html'
-  }
+    // Name — prefer displayName, fall back to email prefix
+    const name     = user.displayName || user.email.split("@")[0];
+    const initials = name.slice(0, 2).toUpperCase();
 
-  document.getElementById('btn-logout') && document.getElementById('btn-logout').addEventListener('click', handleSignOut)
+    // Avatar — use Google photo if available, else initials
+    const avatarEl = document.getElementById("user-avatar");
+    if (user.photoURL) {
+      avatarEl.innerHTML = `<img src="${user.photoURL}" alt="${initials}">`;
+    } else {
+      avatarEl.textContent = initials;
+    }
+
+    document.getElementById("welcome-heading").textContent   = `Welcome back, ${name}.`;
+    document.getElementById("user-email-display").textContent = user.email;
+
+    // Pull lesson progress from localStorage (set by lessons.html)
+    const lessonNum  = parseInt(localStorage.getItem("aceblocksLesson")) || 1;
+    const TOTAL      = 12;
+    const completed  = Math.max(0, lessonNum - 1);
+    const pct        = Math.round((completed / TOTAL) * 100);
+    const xp         = completed * 50;
+
+    document.getElementById("stat-lessons").textContent = completed;
+    document.getElementById("stat-xp").textContent      = xp;
+
+    document.getElementById("course-progress-blocks").style.width = pct + "%";
+    document.getElementById("course-label-blocks").textContent    =
+      pct === 100 ? "100% complete — Finished! 🎉" :
+      pct === 0   ? "0% complete — Start now" :
+                    pct + "% complete — Keep going!";
+
+    // Unlock badges based on progress
+    if (completed >= 1) {
+      document.getElementById("badge-first-lesson").classList.remove("locked");
+    }
+    if (completed >= TOTAL) {
+      document.getElementById("badge-course-complete").classList.remove("locked");
+    }
+  });
+
+  document.getElementById("btn-logout").addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "login.html";
+  });
 </script>
-
 </body>
 </html>
