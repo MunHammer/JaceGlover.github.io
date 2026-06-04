@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const workspace = document.getElementById("workspace");
 
-  workspace.addEventListener("dragover", e => e.preventDefault());
+  workspace.addEventListener("dragover", (e) => e.preventDefault());
 
-  workspace.addEventListener("drop", e => {
+  workspace.addEventListener("drop", (e) => {
     e.preventDefault();
     const code = e.dataTransfer.getData("text/plain");
 
@@ -22,7 +22,7 @@ function runCode() {
   const blocks = document.querySelectorAll("#workspace .block");
   let generatedCode = "";
 
-  blocks.forEach(block => {
+  blocks.forEach((block) => {
     generatedCode += block.dataset.code + "\n";
   });
 

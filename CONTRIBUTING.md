@@ -9,17 +9,22 @@ AceBlocks is an educational platform designed to help people learn coding throug
 There are several ways you can help improve AceBlocks:
 
 ### Report Bugs
+
 If you find a bug, please open an issue and include:
+
 - A clear description of the problem
 - Steps to reproduce the issue
 - Screenshots if possible
 
 ### Suggest Features
+
 If you have ideas for new features or improvements:
+
 - Open a feature request in the Issues section
 - Clearly explain the idea and why it would help AceBlocks
 
 ### Submit Code
+
 1. Fork the repository
 2. Create a new branch
 3. Make your changes
