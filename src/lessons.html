@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>AceBlocks Lessons</title>
+		<link rel="icon" href="/images/AceBlocksLogo.png" type="image/x-png">
+		<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+		<!-- Blockly v9 -->
+		<script src="https://unpkg.com/blockly@9.3.3/blockly_compressed.js"></script>
+		<script src="https://unpkg.com/blockly@9.3.3/blocks_compressed.js"></script>
+		<script src="https://unpkg.com/blockly@9.3.3/javascript_compressed.js"></script>
+		<script src="https://unpkg.com/blockly@9.3.3/msg/en.js"></script>
+		<link href="styles/lessons.css" rel="stylesheet">
+		<script src="scripts/lessons.js" defer></script>
+	</head>
+	<body>
+		<!-- HEADER -->
+		<header>
+			<a href="index.html" class="logo">AceBlocks</a>
+			<nav>
+				<a href="index.html">Home</a>
+				<a href="lessons.html" class="active">Lessons</a>
+				<a href="learn-more.html">Learn More</a>
+				<a href="AceBlocksForSchools.html">For Schools</a>
+			</nav>
+		</header>
+
+		<!-- TOAST -->
+		<div class="toast" id="toast"></div>
+
+		<!-- INTRO SCREEN -->
+		<div id="lessonIntro">
+			<div class="intro-grid"></div>
+
+			<div class="intro-badge">
+				<span class="dot"></span>
+				12 Interactive Lessons
+			</div>
+
+			<h2>Welcome to<br><span>AceBlocks Lessons</span></h2>
+
+			<p>
+				Learn visual coding step by step. Print messages, work with numbers,
+				build logic, and take on real challenges — all with drag-and-drop
+				blocks.
+			</p>
+
+			<div class="lesson-preview">
+				<span class="lesson-pip">🖨️ Hello World</span>
+				<span class="lesson-pip">✏️ Print Anything</span>
+				<span class="lesson-pip">🔢 Numbers</span>
+				<span class="lesson-pip">➕ Math</span>
+				<span class="lesson-pip">📋 Multi-Print</span>
+				<span class="lesson-pip">❤️ I Love Coding</span>
+				<span class="lesson-pip">✖️ Multiply</span>
+				<span class="lesson-pip">➖ Subtract</span>
+				<span class="lesson-pip">🔟 Big Number</span>
+				<span class="lesson-pip">🧮 Chain Math</span>
+				<span class="lesson-pip">📣 Three Lines</span>
+				<span class="lesson-pip">🏆 Grand Finale</span>
+			</div>
+
+			<div class="intro-actions">
+				<button class="btn btn-primary" id="startBtn">
+					<svg width="15"
+					     height="15"
+					     fill="none"
+					     stroke="currentColor"
+					     stroke-width="2.5"
+					     viewBox="0 0 24 24"
+					>
+						<polygon points="5 3 19 12 5 21 5 3"/>
+					</svg>
+					Start Lessons
+				</button>
+			</div>
+		</div>
+
+		<!-- LESSON AREA -->
+		<div id="lessonArea">
+			<div class="lesson-topbar">
+				<div class="lesson-meta">
+					<div id="chapterBadgeWrap"></div>
+					<div id="lessonTitle"></div>
+					<div id="lessonObjective"></div>
+					<div id="lessonHint"></div>
+				</div>
+				<div class="progress-wrap">
+					<div class="progress-label">Progress</div>
+					<div id="progressContainer"><div id="progressBar"></div></div>
+					<div id="progressText"></div>
+				</div>
+			</div>
+
+			<div class="workspace-wrap">
+				<div id="blocklyDiv"></div>
+			</div>
+
+			<div class="action-row">
+				<button class="btn btn-primary" id="runBtn">
+					<svg width="14"
+					     height="14"
+					     fill="none"
+					     stroke="currentColor"
+					     stroke-width="2.5"
+					     viewBox="0 0 24 24"
+					>
+						<polygon points="5 3 19 12 5 21 5 3"/>
+					</svg>
+					Run Code
+				</button>
+				<button class="btn btn-danger" id="resetProgress">
+					<svg width="14"
+					     height="14"
+					     fill="none"
+					     stroke="currentColor"
+					     stroke-width="2.5"
+					     viewBox="0 0 24 24"
+					>
+						<polyline points="23 4 23 10 17 10"/>
+						<path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+					</svg>
+					Reset Progress
+				</button>
+			</div>
+
+			<div class="output-wrap">
+				<div class="output-label">Output</div>
+				<div id="output">Ready — run your code to see results here.</div>
+			</div>
+		</div>
+
+		<!-- CERTIFICATE -->
+		<div id="certificate">
+			<div class="cert-page">
+				<!-- Decorative SVG border -->
+				<svg class="cert-border-svg"
+				     viewBox="0 0 880 640"
+				     preserveAspectRatio="none"
+				     xmlns="http://www.w3.org/2000/svg"
+				>
+					<!-- Outer double border -->
+					<rect x="14" y="14" width="852" height="612" fill="none" stroke="#c8a84b" stroke-width="1.5"/>
+					<rect x="20" y="20" width="840" height="600" fill="none" stroke="#c8a84b" stroke-width="0.5"/>
+					<!-- Corner ornaments TL -->
+					<path d="M14,50 L14,14 L50,14" fill="none" stroke="#9a7c2e" stroke-width="2"/>
+					<circle cx="14" cy="14" r="4" fill="#c8a84b"/>
+					<!-- Corner ornaments TR -->
+					<path d="M866,50 L866,14 L830,14" fill="none" stroke="#9a7c2e" stroke-width="2"/>
+					<circle cx="866" cy="14" r="4" fill="#c8a84b"/>
+					<!-- Corner ornaments BL -->
+					<path d="M14,590 L14,626 L50,626" fill="none" stroke="#9a7c2e" stroke-width="2"/>
+					<circle cx="14" cy="626" r="4" fill="#c8a84b"/>
+					<!-- Corner ornaments BR -->
+					<path d="M866,590 L866,626 L830,626" fill="none" stroke="#9a7c2e" stroke-width="2"/>
+					<circle cx="866" cy="626" r="4" fill="#c8a84b"/>
+					<!-- Mid-edge accent marks -->
+					<line x1="440" y1="14" x2="440" y2="24" stroke="#c8a84b" stroke-width="1"/>
+					<line x1="440" y1="616" x2="440" y2="626" stroke="#c8a84b" stroke-width="1"/>
+					<line x1="14" y1="320" x2="24" y2="320" stroke="#c8a84b" stroke-width="1"/>
+					<line x1="856" y1="320" x2="866" y2="320" stroke="#c8a84b" stroke-width="1"/>
+				</svg>
+
+				<div class="cert-inner">
+					<!-- Header band -->
+					<div class="cert-header-band">
+						<div class="cert-brand">AceBlocks</div>
+						<div class="cert-program-label">
+							Visual Coding Program &nbsp;·&nbsp; 2026
+						</div>
+					</div>
+
+					<!-- Gold medallion seal -->
+					<div class="cert-medallion">
+						<svg viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg">
+							<!-- Outer starburst rays -->
+							<g fill="#c8a84b" opacity="0.55">
+								<polygon points="44,2 46.4,10 44,8 41.6,10"/>
+								<polygon points="44,86 46.4,78 44,80 41.6,78"/>
+								<polygon points="2,44 10,46.4 8,44 10,41.6"/>
+								<polygon points="86,44 78,46.4 80,44 78,41.6"/>
+								<polygon points="14.1,14.1 19.8,20.9 17.3,18.4 20.9,19.8"/>
+								<polygon points="73.9,73.9 68.2,67.1 70.7,69.6 67.1,68.2"/>
+								<polygon points="73.9,14.1 67.1,19.8 69.6,17.3 68.2,20.9"/>
+								<polygon points="14.1,73.9 20.9,68.2 18.4,70.7 19.8,67.1"/>
+							</g>
+							<!-- Main ring -->
+							<circle cx="44" cy="44" r="38" fill="#0c2d6b" stroke="#c8a84b" stroke-width="2"/>
+							<circle cx="44" cy="44" r="32" fill="none" stroke="#c8a84b" stroke-width="0.8" stroke-dasharray="3,3"/>
+							<!-- Inner emblem -->
+							<circle cx="44" cy="44" r="26" fill="#0e3580"/>
+							<!-- Star / code symbol -->
+							<text x="44"
+							      y="52"
+							      text-anchor="middle"
+							      font-family="'Syne',sans-serif"
+							      font-weight="800"
+							      font-size="22"
+							      fill="#c8a84b"
+							>
+								&lt;/&gt;
+							</text>
+							<!-- Tiny label -->
+							<text x="44"
+							      y="72"
+							      text-anchor="middle"
+							      font-family="'Space Grotesk',sans-serif"
+							      font-weight="700"
+							      font-size="5.5"
+							      fill="#a8bfe8"
+							      letter-spacing="1.5"
+							>
+								CERTIFIED
+							</text>
+						</svg>
+					</div>
+
+					<div class="cert-eyebrow">Certificate of Completion</div>
+
+					<div class="cert-title">AceBlocks</div>
+
+					<div class="cert-rule">
+						<div class="cert-rule-line"></div>
+						<div class="cert-rule-diamond"></div>
+						<div class="cert-rule-line"></div>
+					</div>
+
+					<p class="cert-presented-to">This is to proudly certify that</p>
+
+					<h2 id="certName"></h2>
+
+					<div class="cert-rule2"></div>
+
+					<p class="cert-body-text">
+						has successfully completed all 12 lessons of the AceBlocks Visual
+						Coding Program, demonstrating a strong grasp of block-based
+						scripting, arithmetic, logic, and core programming fundamentals.
+					</p>
+
+					<div class="cert-completion-tag">
+						12 Lessons &nbsp;·&nbsp; 4 Chapters &nbsp;·&nbsp; Full Program
+					</div>
+
+					<div class="cert-sigs">
+						<div class="cert-sig">
+							<span class="cert-sig-name">Jace Glover</span>
+							<div class="cert-sig-role">Founder, AceBlocks</div>
+						</div>
+						<div class="cert-sig">
+							<span class="cert-sig-name">Liam Cooper</span>
+							<div class="cert-sig-role">Coder, AceBlocks</div>
+						</div>
+						<div class="cert-sig">
+							<span class="cert-sig-name">Henry Lewis</span>
+							<div class="cert-sig-role">Coder, AceBlocks</div>
+						</div>
+					</div>
+
+					<!-- Footer band -->
+					<div class="cert-footer-band">
+						<p id="certDate"></p>
+						<span class="cert-footer-copy">© 2026 AceBlocks — Coding for the Future</span>
+					</div>
+				</div>
+			</div>
+
+			<button id="printBtn" onclick="window.print()">Print Certificate</button>
+		</div>
+
+		<!-- Toolbox XML -->
+		<xml id="toolbox" style="display: none">
+			<block type="text_print"></block>
+			<block type="text"></block>
+			<block type="math_number"></block>
+			<block type="math_arithmetic"></block>
+		</xml>
+	</body>
+</html>
