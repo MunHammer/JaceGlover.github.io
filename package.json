@@ -1,17 +1,26 @@
 {
-    "name": "AceBlocks",
-    "version": "0.1.0",
-    "keywords": "AceBlocks block coding luau",
-    "homepage": "jaceglover.github.io",
-    "bugs": "https://github.com/JaceGlover/JaceGlover.github.io/issues",
-    "license": "MIT",
-    "author": "Jace Glover <Jaceglover240@gmail.com>",
-    "dependencies": {
-        "@types/firebase": "^2.4.32",
-        "blockly": "^13.0.0",
-        "firebase": "^12.14.0"
-    },
-    "devDependencies": {
-        "typescript": "^6.0.3"
-    }
+  "name": "AceBlocks",
+  "version": "0.1.0",
+  "keywords": "AceBlocks block coding luau",
+  "homepage": "jaceglover.github.io",
+  "bugs": "https://github.com/JaceGlover/JaceGlover.github.io/issues",
+  "license": "MIT",
+  "author": "Jace Glover <Jaceglover240@gmail.com>",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "prettier": "^3.8.5",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "dependencies": {
+    "@types/firebase": "^2.4.32",
+    "blockly": "^13.0.0",
+    "firebase": "^12.14.0"
+  }
 }
