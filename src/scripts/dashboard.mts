@@ -1,9 +1,17 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAnalytics } from "firebase/analytics";
 import {
   getAuth,
   onAuthStateChanged,
   signOut,
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp,
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 function main() {
   const firebaseConfig = {
@@ -17,19 +25,20 @@ function main() {
   };
 
   const app = initializeApp(firebaseConfig);
+  getAnalytics(app);
   const auth = getAuth(app);
+  const db = getFirestore(app);
+  const TOTAL = 12;
 
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user === null) {
       window.location.href = "login.html";
       return;
     }
 
-    // Name — prefer displayName, fall back to email prefix
+    // ── Avatar + name ─────────────────────────────────────
     const name = user.displayName || user.email?.split("@")[0] || "Anon";
     const initials = name?.slice(0, 2).toUpperCase();
-
-    // Avatar — use Google photo if available, else initials
     const avatarEl = document.getElementById("user-avatar");
     if (avatarEl === null || initials === undefined) throw new ReferenceError();
     if (user.photoURL) {
@@ -45,15 +54,48 @@ function main() {
     welcome.textContent = `Welcome back, ${name}.`;
     email.textContent = user.email;
 
-    // Pull lesson progress from localStorage (set by lessons.html)
-    const lesson_num = localStorage.getItem("aceblocksLesson");
-    if (lesson_num === null) throw new ReferenceError();
-    const lessonNum = parseInt(lesson_num) || 1;
-    const TOTAL = 12;
-    const completed = Math.max(0, lessonNum - 1);
+    // ── Load progress from Firestore ──────────────────────
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+    const data = userSnap.exists() ? userSnap.data() : {};
+
+    // How many lessons completed — prefer Firestore, fall back to localStorage
+    // (so progress isn't lost if they used the site before Firestore was added)
+    const localLesson = parseInt(
+      localStorage.getItem("aceblocksLesson") || "1",
+    );
+    const localComplete = Math.max(0, localLesson - 1);
+    const firestoreComplete = data["lessonsComplete"] ?? null;
+
+    // Use whichever is higher so no progress is ever lost
+    const completed =
+      firestoreComplete !== null
+        ? Math.max(firestoreComplete, localComplete)
+        : localComplete;
+
     const pct = Math.round((completed / TOTAL) * 100);
     const xp = completed * 50;
+    // ── Update Firestore with latest progress ─────────────
+    await setDoc(
+      userRef,
+      {
+        uid: user.uid,
+        name,
+        email: user.email,
+        photoURL: user.photoURL || null,
+        lessonsComplete: completed,
+        xp,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true },
+    );
 
+    // Also keep localStorage in sync so lessons.html still works
+    if (completed > 0) {
+      localStorage.setItem("aceblocksLesson", String(completed + 1));
+    }
+
+    // ── Render stats ──────────────────────────────────────
     const lessons = document.getElementById("stat-lessons");
     const stat_xp = document.getElementById("stat-xp");
     const progress = document.getElementById("course-progress-blocks");
@@ -77,23 +119,48 @@ function main() {
         : pct === 0
           ? "0% complete — Start now"
           : pct + "% complete — Keep going!";
+    // ── Streak tracking ───────────────────────────────────
+    const today = new Date().toDateString();
+    const lastVisit = data["lastVisit"] || null;
+    const streak = data["streak"] || 0;
 
-    // Unlock badges based on progress
-    if (completed >= 1) {
-      const first = document.getElementById("badge-first-lesson");
-      if (first === null) throw new ReferenceError();
-      first.classList.remove("locked");
+    let newStreak = streak;
+    if (lastVisit === today) {
+      // Same day — streak stays the same
+      newStreak = streak;
+    } else if (lastVisit === new Date(Date.now() - 86400000).toDateString()) {
+      // Visited yesterday — increment streak
+      newStreak = streak + 1;
+    } else {
+      // Missed a day — reset streak
+      newStreak = 1;
     }
-    if (completed >= TOTAL) {
-      const complete = document.getElementById("badge-course-complete");
-      if (complete === null) throw new ReferenceError();
-      complete.classList.remove("locked");
-    }
+
+    // Save streak + last visit
+    await setDoc(
+      userRef,
+      {
+        streak: newStreak,
+        lastVisit: today,
+      },
+      { merge: true },
+    );
+
+    const statStreak = document.getElementById("stat-streak");
+    statStreak && (statStreak.textContent = newStreak + " 🔥");
+
+    // ── Badges ────────────────────────────────────────────
+    if (completed >= 1)
+      document.getElementById("badge-first-lesson")?.classList.remove("locked");
+    if (completed >= TOTAL)
+      document
+        .getElementById("badge-course-complete")
+        ?.classList.remove("locked");
+    if (newStreak >= 7)
+      document.getElementById("badge-streak")?.classList.remove("locked");
   });
 
-  const logout = document.getElementById("btn-logout");
-  if (logout === null) throw new ReferenceError();
-  logout.addEventListener("click", async () => {
+  document.getElementById("btn-logout")?.addEventListener("click", async () => {
     await signOut(auth);
     window.location.href = "login.html";
   });

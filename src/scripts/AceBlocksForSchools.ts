@@ -1,6 +1,7 @@
 // ── TYPEWRITER ──
-function typeWriter(text: string) {
-  let i = 0;
+let i = 0;
+const text = "AceBlocks";
+function typeWriter() {
   const typeEl = document.getElementById("typeText");
   if (i < text.length) {
     // Insert char before the cursor span
@@ -46,7 +47,7 @@ function goDown() {
 // ── SCROLL REVEAL ──
 
 function main() {
-  typeWriter("AceBlocks");
+  typeWriter();
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
