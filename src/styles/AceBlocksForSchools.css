@@ -578,9 +578,6 @@ nav a.active::after {
   flex-shrink: 0;
 }
 
-.card-body {
-}
-
 .card-label {
   font-size: 0.7rem;
   font-weight: 700;

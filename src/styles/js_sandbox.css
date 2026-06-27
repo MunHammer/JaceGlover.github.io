@@ -258,7 +258,6 @@ textarea.code-input {
   white-space: pre;
   overflow-wrap: normal;
   overflow-x: auto;
-  spellcheck: false;
 }
 
 textarea.code-input::selection {

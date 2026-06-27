@@ -294,9 +294,6 @@ nav a.active::after {
   gap: 16px;
 }
 
-.lesson-meta {
-}
-
 #lessonTitle {
   font-family: "Syne", sans-serif;
   font-size: 1.15rem;
