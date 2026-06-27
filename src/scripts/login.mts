@@ -1,5 +1,5 @@
+// Import everything, in a way that TypeScript is happy with
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -16,6 +16,8 @@ import {
   getDoc,
   setDoc,
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+// Importing types
+import type { User } from "firebase/auth"
 
 const firebaseConfig = {
   apiKey: "AIzaSyA3PF0jklshcBZLm4Tm_-K10RUok15Mu3U",
@@ -28,15 +30,14 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 // ── Role helper ───────────────────────────────────────
-async function getRedirectUrl(user) {
+async function getRedirectUrl(user: User) {
   const snap = await getDoc(doc(db, "users", user.uid));
-  if (snap.exists() && snap.data().role === "teacher")
+  if (snap.exists() && snap.data()["role"] === "teacher")
     return "teacher-dashboard.html";
   // Also check teachers collection (for Google sign-in teachers)
   const tsnap = await getDoc(doc(db, "teachers", user.uid));
@@ -50,24 +51,29 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // ── Helpers ──────────────────────────────────────────
-function showMsg(text, type) {
-  const el = document.getElementById("auth-message");
-  el.textContent = text;
-  el.className = "message " + type;
+function showMsg(text: string, type: string) {
+  const authMessage = document.getElementById("auth-message");
+  if (authMessage === null) throw new ReferenceError();
+  authMessage.textContent = text;
+  authMessage.className = "message " + type;
 }
 
-function setLoading(btnId, loading, defaultHTML) {
-  const btn = document.getElementById(btnId);
+function setLoading(btnId: string, loading: true): void;
+function setLoading(btnId: string, loading: false, defaultHTML: string): void;
+function setLoading(btnId: string, loading: boolean, defaultHTML?: string): void {
+  const btn = document.querySelector(`button#${btnId}`);
+  if (!(btn instanceof HTMLButtonElement)) throw new ReferenceError();
   btn.disabled = loading;
   if (loading) {
     btn.textContent = "Please wait...";
   } else {
+    if (defaultHTML === undefined) throw new TypeError();
     btn.innerHTML = defaultHTML;
   }
 }
 
-function friendlyError(code) {
-  const map = {
+function friendlyError(code: string) {
+  const map: Record<string, string> = {
     "auth/user-not-found": "No account found with that email.",
     "auth/wrong-password": "Incorrect password. Try again.",
     "auth/invalid-credential": "Incorrect email or password.",
@@ -86,34 +92,41 @@ function friendlyError(code) {
 }
 
 // ── Tab switching ─────────────────────────────────────
-function switchTab(tab) {
+const formLogin = document.getElementById("form-login") as HTMLElement;
+if (formLogin === null) throw new ReferenceError();
+function switchTab(tab: string) {
   const isLogin = tab === "login";
-  document.getElementById("form-login").style.display = isLogin
+  // Getting elements
+  const formSignup = document.getElementById("form-signup") as HTMLElement;
+  const tabLogin = document.getElementById("tab-login") as HTMLElement;
+  const tabSignup = document.getElementById("tab-signup") as HTMLElement;
+  const authMessage = document.getElementById("auth-message") as HTMLElement;
+  if ([formSignup, tabLogin, tabSignup, authMessage].some((element) => { return element === null })) throw new ReferenceError();
+  formLogin.style.display = isLogin
     ? "block"
     : "none";
-  document.getElementById("form-signup").style.display = isLogin
+  formSignup.style.display = isLogin
     ? "none"
     : "block";
-  document
-    .getElementById("tab-login")
-    .classList.toggle("active", isLogin);
-  document
-    .getElementById("tab-signup")
-    .classList.toggle("active", !isLogin);
-  document.getElementById("auth-message").className = "message";
+  tabLogin.classList.toggle("active", isLogin);
+  tabSignup.classList.toggle("active", !isLogin);
+  authMessage.className = "message";
 }
 
-document
-  .getElementById("tab-login")
-  .addEventListener("click", () => switchTab("login"));
-document
-  .getElementById("tab-signup")
-  .addEventListener("click", () => switchTab("signup"));
+const tabLogin = document.getElementById("tab-login") as HTMLElement;
+const tabSignup = document.getElementById("tab-signup") as HTMLElement;
+if ([tabLogin, tabSignup].some((element) => { return element === null })) throw new ReferenceError();
+tabLogin.addEventListener("click", () => switchTab("login"));
+tabSignup.addEventListener("click", () => switchTab("signup"));
 
 // ── Log In ────────────────────────────────────────────
+const loginEmail = document.querySelector("input#login-email") as HTMLInputElement;
+if (!(loginEmail instanceof HTMLInputElement)) throw new ReferenceError();
 async function handleLogin() {
-  const email = document.getElementById("login-email").value.trim();
-  const password = document.getElementById("login-password").value;
+  const loginPassword = document.querySelector("input#login-password") as HTMLInputElement;
+  if (!(loginPassword instanceof HTMLInputElement)) throw new ReferenceError();
+  const email = loginEmail.value.trim();
+  const password = loginPassword.value;
   if (!email || !password)
     return showMsg("Please fill in all fields.", "error");
 
@@ -128,7 +141,7 @@ async function handleLogin() {
     setTimeout(async () => {
       window.location.href = await getRedirectUrl(user);
     }, 700);
-  } catch (e) {
+  } catch (e: any) {
     showMsg(friendlyError(e.code), "error");
     setLoading(
       "btn-login",
@@ -140,22 +153,29 @@ async function handleLogin() {
 
 // ── Role toggle ───────────────────────────────────────
 let selectedRole = "student";
-document.getElementById("role-student").addEventListener("click", () => {
+const roleStudent = document.getElementById("role-student");
+const roleTeacher = document.getElementById("role-teacher");
+if (roleStudent === null || roleTeacher === null) throw new ReferenceError();
+roleStudent.addEventListener("click", () => {
   selectedRole = "student";
-  document.getElementById("role-student").classList.add("active");
-  document.getElementById("role-teacher").classList.remove("active");
+  roleStudent.classList.add("active");
+  roleTeacher.classList.remove("active");
 });
-document.getElementById("role-teacher").addEventListener("click", () => {
+roleTeacher.addEventListener("click", () => {
   selectedRole = "teacher";
-  document.getElementById("role-teacher").classList.add("active");
-  document.getElementById("role-student").classList.remove("active");
+  roleTeacher.classList.add("active");
+  roleStudent.classList.remove("active");
 });
 
 // ── Sign Up ───────────────────────────────────────────
 async function handleSignUp() {
-  const name = document.getElementById("signup-name").value.trim();
-  const email = document.getElementById("signup-email").value.trim();
-  const password = document.getElementById("signup-password").value;
+  const signupName = document.querySelector("input#signup-name") as HTMLInputElement;
+  const signupEmail = document.querySelector("input#signup-email") as HTMLInputElement;
+  const signupPassword = document.querySelector("input#signup-password") as HTMLInputElement;
+  if ([signupName, signupEmail, signupPassword].some((element) => { return element === null })) throw new ReferenceError();
+  const name = signupName.value.trim();
+  const email = signupEmail.value.trim();
+  const password = signupPassword.value;
   if (!name || !email || !password)
     return showMsg("Please fill in all fields.", "error");
   if (password.length < 6)
@@ -197,7 +217,7 @@ async function handleSignUp() {
           ? "teacher-dashboard.html"
           : "dashboard.html";
     }, 700);
-  } catch (e) {
+  } catch (e: any) {
     showMsg(friendlyError(e.code), "error");
     setLoading(
       "btn-signup",
@@ -212,6 +232,7 @@ async function handleGoogle() {
   try {
     const { user } = await signInWithPopup(auth, provider);
     // Save to Firestore if first time (merge so existing role isn't overwritten)
+    if (user.email === null) throw new TypeError();
     await setDoc(
       doc(db, "users", user.uid),
       {
@@ -226,43 +247,40 @@ async function handleGoogle() {
     setTimeout(async () => {
       window.location.href = await getRedirectUrl(user);
     }, 700);
-  } catch (e) {
+  } catch (e: any) {
     showMsg(friendlyError(e.code), "error");
   }
 }
 
 // ── Forgot password ───────────────────────────────────
-document
-  .getElementById("forgot-link")
-  .addEventListener("click", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("login-email").value.trim();
-    if (!email) return showMsg("Enter your email above first.", "error");
-    try {
-      await sendPasswordResetEmail(auth, email);
-      showMsg("Password reset email sent! Check your inbox.", "success");
-    } catch (e) {
-      showMsg(friendlyError(e.code), "error");
-    }
-  });
+const forgotLink = document.getElementById("forgot-link");
+if (forgotLink === null) throw new ReferenceError();
+forgotLink.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const email = loginEmail.value.trim();
+  if (!email) return showMsg("Enter your email above first.", "error");
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showMsg("Password reset email sent! Check your inbox.", "success");
+  } catch (e: any) {
+    showMsg(friendlyError(e.code), "error");
+  }
+});
 
 // ── Event listeners ───────────────────────────────────
-document
-  .getElementById("btn-login")
-  .addEventListener("click", handleLogin);
-document
-  .getElementById("btn-signup")
-  .addEventListener("click", handleSignUp);
-document
-  .getElementById("btn-google-login")
-  .addEventListener("click", handleGoogle);
-document
-  .getElementById("btn-google-signup")
-  .addEventListener("click", handleGoogle);
+const btnLogin = document.getElementById("btn-login") as HTMLElement;
+const btnSignup = document.getElementById("btn-signup") as HTMLElement;
+const btnGoogleLogin = document.getElementById("btn-google-login") as HTMLElement;
+const btnGoogleSignup = document.getElementById("btn-google-signup") as HTMLElement;
+if (![btnLogin, btnSignup, btnGoogleLogin, btnGoogleSignup].some((element) => { return element === null })) throw new ReferenceError();
+btnLogin.addEventListener("click", handleLogin);
+btnSignup.addEventListener("click", handleSignUp);
+btnGoogleLogin.addEventListener("click", handleGoogle);
+btnGoogleSignup.addEventListener("click", handleGoogle);
 
 document.addEventListener("keydown", (e) => {
   if (e.key !== "Enter") return;
-  document.getElementById("form-login").style.display !== "none"
+  formLogin.style.display !== "none"
     ? handleLogin()
     : handleSignUp();
 });

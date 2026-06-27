@@ -1,3 +1,4 @@
 # Ignore js artifacts
 **/*.js
 **/*.mjs
+node_modules/

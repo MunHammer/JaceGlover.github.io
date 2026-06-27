@@ -1,3 +1,8 @@
+enum Mode {
+  Js = "js",
+  Html = "html",
+  Css = "css"
+}
 // ── DEFAULT CODE ──────────────────────────────────────────────
 const DEFAULTS = {
   js: `// Welcome to the AceBlocks JS Sandbox!
@@ -70,19 +75,33 @@ const DEFAULTS = {
 };
 
 // ── STATE ─────────────────────────────────────────────────────
-let mode = "js"; // 'js' or 'html'
-let activeFile = "html"; // for html mode: 'html', 'css', 'js'
+let mode = Mode.Js;
+let activeFile = Mode.Html;
 let files = {
   html: DEFAULTS.html,
   css: DEFAULTS.css,
   js: DEFAULTS.htmljs,
 };
 
-const codeInput = document.getElementById("code-input");
-const lineNumbers = document.getElementById("line-numbers");
-const preview = document.getElementById("preview");
-const consoleOutput = document.getElementById("console-output");
-const fileTabs = document.getElementById("file-tabs");
+// ── INITIALIZING CONSTANTS ────────────────────────────────────
+const codeInput = document.getElementById("code-input") as HTMLTextAreaElement;
+const lineNumbers = document.getElementById("line-numbers") as HTMLDivElement;
+const preview = document.getElementById("preview") as HTMLIFrameElement;
+const consoleOutput = document.getElementById("console-output") as HTMLDivElement;
+const fileTabs = document.getElementById("file-tabs") as HTMLDivElement;
+const modeJs = document.getElementById("mode-js") as HTMLButtonElement;
+const modeHtml = document.getElementById("mode-html") as HTMLButtonElement;
+const btnClear = document.getElementById("btn-clear-console") as HTMLButtonElement;
+const btnRun = document.getElementById("btn-run") as HTMLButtonElement;
+const btnReset = document.getElementById("btn-reset") as HTMLButtonElement;
+const handle = document.getElementById("resize-handle") as HTMLDivElement;
+const editorPanel = document.getElementById("editor-panel") as HTMLDivElement;
+const domWorkspace = document.querySelector(".workspace") as HTMLDivElement;
+
+// ── ASSERTING TYPES ───────────────────────────────────────────
+if (![codeInput instanceof HTMLTextAreaElement, lineNumbers instanceof HTMLDivElement, preview instanceof HTMLIFrameElement, consoleOutput instanceof HTMLDivElement, fileTabs instanceof HTMLDivElement, modeJs instanceof HTMLButtonElement, modeHtml instanceof HTMLButtonElement, btnClear instanceof HTMLButtonElement, btnRun instanceof HTMLButtonElement, btnReset instanceof HTMLButtonElement, handle instanceof HTMLDivElement, editorPanel instanceof HTMLDivElement, domWorkspace instanceof HTMLDivElement].some((element) => {
+  return element;
+})) throw new ReferenceError();
 
 // ── LINE NUMBERS ──────────────────────────────────────────────
 function updateLineNumbers() {
@@ -114,35 +133,27 @@ codeInput.addEventListener("keydown", (e) => {
 });
 
 // ── MODE SWITCHING ────────────────────────────────────────────
-document
-  .getElementById("mode-js")
-  .addEventListener("click", () => setMode("js"));
-document
-  .getElementById("mode-html")
-  .addEventListener("click", () => setMode("html"));
+modeJs.addEventListener("click", () => setMode(Mode.Js));
+modeHtml.addEventListener("click", () => setMode(Mode.Html));
 
-function setMode(newMode) {
+function setMode(newMode: Mode) {
   // Save current editor content
-  if (mode === "js") {
+  if (mode === Mode.Js) {
     DEFAULTS.js = codeInput.value;
   } else {
     files[activeFile] = codeInput.value;
   }
 
   mode = newMode;
-  document
-    .getElementById("mode-js")
-    .classList.toggle("active", mode === "js");
-  document
-    .getElementById("mode-html")
-    .classList.toggle("active", mode === "html");
-  fileTabs.style.display = mode === "html" ? "flex" : "none";
+  modeJs.classList.toggle("active", mode === Mode.Js);
+  modeHtml.classList.toggle("active", mode === Mode.Html);
+  fileTabs.style.display = mode === Mode.Html ? "flex" : "none";
 
-  if (mode === "js") {
+  if (mode === Mode.Js) {
     codeInput.value = DEFAULTS.js;
   } else {
-    activeFile = "html";
-    setActiveFileTab("html");
+    activeFile = Mode.Html;
+    setActiveFileTab(Mode.Html);
     codeInput.value = files.html;
   }
 
@@ -151,19 +162,36 @@ function setMode(newMode) {
 }
 
 // ── FILE TABS (HTML mode) ─────────────────────────────────────
-document.querySelectorAll(".file-tab").forEach((tab) => {
+const tabs = document.querySelectorAll(".file-tab") as NodeListOf<HTMLButtonElement>;
+tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     files[activeFile] = codeInput.value;
-    activeFile = tab.dataset.file;
+    const file = tab.dataset["file"]
+    switch (file) {
+      case undefined:
+        throw new ReferenceError();
+      case "js":
+        activeFile = Mode.Js;
+        break;
+      case "html":
+        activeFile = Mode.Html;
+        break;
+      case "css":
+        activeFile = Mode.Css;
+        break;
+      default:
+        console.log(file);
+        break;
+    }
     setActiveFileTab(activeFile);
     codeInput.value = files[activeFile];
     updateLineNumbers();
   });
 });
 
-function setActiveFileTab(file) {
-  document.querySelectorAll(".file-tab").forEach((t) => {
-    t.classList.toggle("active", t.dataset.file === file);
+function setActiveFileTab(file: Mode) {
+  tabs.forEach((t) => {
+    t.classList.toggle("active", t.dataset["file"] === file);
   });
 }
 
@@ -173,34 +201,32 @@ function clearConsole() {
     '<div class="console-empty">Run your code to see output here.</div>';
 }
 
-function addLog(msg, type = "log") {
+function addLog(msg: string, type = "log") {
   const empty = consoleOutput.querySelector(".console-empty");
   if (empty) empty.remove();
 
-  const labels = {
-    log: "LOG",
-    error: "ERR",
-    warn: "WARN",
-    info: "INF",
-    system: "···",
+  const labels: Record<string, string> = {
+    "log": "LOG",
+    "error": "ERR",
+    "warn": "WARN",
+    "info": "INF",
+    "system": "···",
   };
   const line = document.createElement("div");
   line.className = `log-line ${type}`;
-  line.innerHTML = `<span class="log-type">${labels[type] || "LOG"}</span><span class="log-msg">${escapeHtml(String(msg))}</span>`;
+  line.innerHTML = `<span class="log-type">${labels["type"] || "LOG"}</span><span class="log-msg">${escapeHtml(msg)}</span>`;
   consoleOutput.appendChild(line);
   consoleOutput.scrollTop = consoleOutput.scrollHeight;
 }
 
-function escapeHtml(str) {
+function escapeHtml(str: string) {
   return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 }
 
-document
-  .getElementById("btn-clear-console")
-  .addEventListener("click", clearConsole);
+btnClear.addEventListener("click", clearConsole);
 
 // Listen for messages from the iframe
 window.addEventListener("message", (e) => {
@@ -212,11 +238,11 @@ window.addEventListener("message", (e) => {
 });
 
 // ── RUN ───────────────────────────────────────────────────────
-document.getElementById("btn-run").addEventListener("click", runCode);
+btnRun.addEventListener("click", runCode);
 
 function runCode() {
   // Save current tab content
-  if (mode === "html") files[activeFile] = codeInput.value;
+  if (mode === Mode.Html) files[activeFile] = codeInput.value;
 
   clearConsole();
   addLog("Running...", "system");
@@ -245,7 +271,7 @@ function runCode() {
 
   let html = "";
 
-  if (mode === "js") {
+  if (mode === Mode.Js) {
     const code = codeInput.value;
     html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>
 																						${interceptor}
@@ -286,9 +312,9 @@ function runCode() {
 }
 
 // ── RESET ─────────────────────────────────────────────────────
-document.getElementById("btn-reset").addEventListener("click", () => {
+btnReset.addEventListener("click", () => {
   if (!confirm("Reset code to default?")) return;
-  if (mode === "js") {
+  if (mode === Mode.Js) {
     codeInput.value = `// Welcome to the AceBlocks JS Sandbox!\n// Write JavaScript below and hit Run.\n\nconsole.log("Hello, AceBlocks!")`;
   } else {
     files = {
@@ -304,11 +330,9 @@ document.getElementById("btn-reset").addEventListener("click", () => {
 });
 
 // ── RESIZE HANDLE ─────────────────────────────────────────────
-const handle = document.getElementById("resize-handle");
-const editorPanel = document.getElementById("editor-panel");
 let isResizing = false;
 
-handle.addEventListener("mousedown", (e) => {
+handle.addEventListener("mousedown", () => {
   isResizing = true;
   handle.classList.add("dragging");
   document.body.style.cursor = "col-resize";
@@ -317,8 +341,7 @@ handle.addEventListener("mousedown", (e) => {
 
 document.addEventListener("mousemove", (e) => {
   if (!isResizing) return;
-  const workspace = document.querySelector(".workspace");
-  const rect = workspace.getBoundingClientRect();
+  const rect = domWorkspace.getBoundingClientRect();
   const newWidth = Math.min(
     Math.max(e.clientX - rect.left, 200),
     rect.width - 200,
