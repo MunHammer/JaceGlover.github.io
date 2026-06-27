@@ -46,7 +46,7 @@ function goDown() {
 // ── SCROLL REVEAL ──
 
 function main() {
-  typeWriter("AceBlocks")
+  typeWriter("AceBlocks");
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
@@ -55,6 +55,8 @@ function main() {
     },
     { threshold: 0.1 },
   );
-  document.querySelectorAll(".info-card, .cta-block").forEach((el) => observer.observe(el));
+  document
+    .querySelectorAll(".info-card, .cta-block")
+    .forEach((el) => observer.observe(el));
 }
 main();

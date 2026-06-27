@@ -22,7 +22,7 @@ function main() {
   onAuthStateChanged(auth, (user) => {
     if (user === null) {
       window.location.href = "login.html";
-      return
+      return;
     }
 
     // Name — prefer displayName, fall back to email prefix
@@ -31,7 +31,7 @@ function main() {
 
     // Avatar — use Google photo if available, else initials
     const avatarEl = document.getElementById("user-avatar");
-    if (avatarEl === null || initials === undefined) throw new ReferenceError()
+    if (avatarEl === null || initials === undefined) throw new ReferenceError();
     if (user.photoURL) {
       avatarEl.innerHTML = `<img src="${user.photoURL}" alt="${initials}">`;
     } else {
@@ -48,8 +48,7 @@ function main() {
     // Pull lesson progress from localStorage (set by lessons.html)
     const lesson_num = localStorage.getItem("aceblocksLesson");
     if (lesson_num === null) throw new ReferenceError();
-    const lessonNum =
-      parseInt(lesson_num) || 1;
+    const lessonNum = parseInt(lesson_num) || 1;
     const TOTAL = 12;
     const completed = Math.max(0, lessonNum - 1);
     const pct = Math.round((completed / TOTAL) * 100);
@@ -60,7 +59,13 @@ function main() {
     const progress = document.getElementById("course-progress-blocks");
     const label_blocks = document.getElementById("course-label-blocks");
 
-    if (lessons === null || stat_xp === null || progress === null || label_blocks === null) throw new ReferenceError();
+    if (
+      lessons === null ||
+      stat_xp === null ||
+      progress === null ||
+      label_blocks === null
+    )
+      throw new ReferenceError();
 
     lessons.textContent = completed.toString();
     stat_xp.textContent = xp.toString();
@@ -75,15 +80,13 @@ function main() {
 
     // Unlock badges based on progress
     if (completed >= 1) {
-      const first =
-        document.getElementById("badge-first-lesson");
+      const first = document.getElementById("badge-first-lesson");
       if (first === null) throw new ReferenceError();
       first.classList.remove("locked");
     }
     if (completed >= TOTAL) {
-      const complete =
-        document.getElementById("badge-course-complete")
-      if (complete === null) throw new ReferenceError;
+      const complete = document.getElementById("badge-course-complete");
+      if (complete === null) throw new ReferenceError();
       complete.classList.remove("locked");
     }
   });
@@ -94,6 +97,5 @@ function main() {
     await signOut(auth);
     window.location.href = "login.html";
   });
-
 }
 main();

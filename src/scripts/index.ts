@@ -15,9 +15,7 @@ function main() {
   window.addEventListener("scroll", () => {
     const grid = document.querySelector(".grid-lines");
     if (!(grid instanceof HTMLDivElement)) throw new ReferenceError();
-    if (grid)
-      grid.style.transform = `translateY(${window.scrollY * 0.15}px)`;
+    if (grid) grid.style.transform = `translateY(${window.scrollY * 0.15}px)`;
   });
-
 }
 main();

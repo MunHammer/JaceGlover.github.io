@@ -1,152 +1,156 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<link rel="icon" href="/images/AceBlocksLogo.png" type="image/x-png">
-		<meta charset="UTF-8">
-		<title>AceBlocks | Dashboard</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-		<link href="styles/dashboard.css" rel="stylesheet">
-		<script src="scripts/dashboard.mjs"></script>
-	</head>
-	<body>
-		<header>
-			<a href="index.html" class="logo">AceBlocks</a>
-			<nav>
-				<a href="lessons.html">Lessons</a>
-				<a href="js_sandbox.html">Sandbox</a>
-				<a href="helpbot.html">Help</a>
-				<button class="btn-logout" id="btn-logout">Log Out</button>
-			</nav>
-		</header>
+  <head>
+    <link rel="icon" href="/images/AceBlocksLogo.png" type="image/x-png" />
+    <meta charset="UTF-8" />
+    <title>AceBlocks | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="styles/dashboard.css" rel="stylesheet" />
+    <script src="scripts/dashboard.mjs"></script>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="logo">AceBlocks</a>
+      <nav>
+        <a href="lessons.html">Lessons</a>
+        <a href="js_sandbox.html">Sandbox</a>
+        <a href="helpbot.html">Help</a>
+        <button class="btn-logout" id="btn-logout">Log Out</button>
+      </nav>
+    </header>
 
-		<main>
-			<div class="welcome-row">
-				<div class="avatar" id="user-avatar">?</div>
-				<div class="welcome-text">
-					<h1 id="welcome-heading">Loading...</h1>
-					<p id="user-email-display"></p>
-				</div>
-			</div>
+    <main>
+      <div class="welcome-row">
+        <div class="avatar" id="user-avatar">?</div>
+        <div class="welcome-text">
+          <h1 id="welcome-heading">Loading...</h1>
+          <p id="user-email-display"></p>
+        </div>
+      </div>
 
-			<div class="section-label">Your Progress</div>
-			<div class="stats-row">
-				<div class="stat-card">
-					<div class="stat-value" id="stat-lessons">0</div>
-					<div class="stat-label">Lessons Complete</div>
-				</div>
-				<div class="stat-card">
-					<div class="stat-value" id="stat-xp">0</div>
-					<div class="stat-label">XP Earned</div>
-				</div>
-				<div class="stat-card">
-					<div class="stat-value">0 🔥</div>
-					<div class="stat-label">Day Streak</div>
-				</div>
-				<div class="stat-card">
-					<div class="stat-value">0</div>
-					<div class="stat-label">Challenges Done</div>
-				</div>
-			</div>
+      <div class="section-label">Your Progress</div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-lessons">0</div>
+          <div class="stat-label">Lessons Complete</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-xp">0</div>
+          <div class="stat-label">XP Earned</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">0 🔥</div>
+          <div class="stat-label">Day Streak</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Challenges Done</div>
+        </div>
+      </div>
 
-			<div class="section-label">Quick Actions</div>
-			<div class="actions-grid">
-				<a href="lessons.html" class="action-card">
-					<div class="action-icon">📚</div>
-					<div>
-						<div class="action-label">Continue Learning</div>
-						<div class="action-sub">Pick up where you left off</div>
-					</div>
-				</a>
-				<a href="js_sandbox.html" class="action-card">
-					<div class="action-icon">⚡</div>
-					<div>
-						<div class="action-label">Open Sandbox</div>
-						<div class="action-sub">Write and run JS freely</div>
-					</div>
-				</a>
-				<a href="helpbot.html" class="action-card">
-					<div class="action-icon">🤖</div>
-					<div>
-						<div class="action-label">Help Bot</div>
-						<div class="action-sub">Get unstuck fast</div>
-					</div>
-				</a>
-				<a href="AceBlocksForSchools.html" class="action-card">
-					<div class="action-icon">🏫</div>
-					<div>
-						<div class="action-label">For Schools</div>
-						<div class="action-sub">Info for educators</div>
-					</div>
-				</a>
-			</div>
+      <div class="section-label">Quick Actions</div>
+      <div class="actions-grid">
+        <a href="lessons.html" class="action-card">
+          <div class="action-icon">📚</div>
+          <div>
+            <div class="action-label">Continue Learning</div>
+            <div class="action-sub">Pick up where you left off</div>
+          </div>
+        </a>
+        <a href="js_sandbox.html" class="action-card">
+          <div class="action-icon">⚡</div>
+          <div>
+            <div class="action-label">Open Sandbox</div>
+            <div class="action-sub">Write and run JS freely</div>
+          </div>
+        </a>
+        <a href="helpbot.html" class="action-card">
+          <div class="action-icon">🤖</div>
+          <div>
+            <div class="action-label">Help Bot</div>
+            <div class="action-sub">Get unstuck fast</div>
+          </div>
+        </a>
+        <a href="AceBlocksForSchools.html" class="action-card">
+          <div class="action-icon">🏫</div>
+          <div>
+            <div class="action-label">For Schools</div>
+            <div class="action-sub">Info for educators</div>
+          </div>
+        </a>
+      </div>
 
-			<div class="section-label">My Courses</div>
-			<div class="courses-grid">
-				<a href="lessons.html" class="course-card">
-					<div class="course-icon">🧱</div>
-					<div class="course-title">Block Coding Basics</div>
-					<div class="course-desc">
-						Build programs visually using AceBlocks drag-and-drop system. No
-						syntax needed.
-					</div>
-					<div class="progress-wrap">
-						<div class="progress-fill"
-						     id="course-progress-blocks"
-						     style="width: 0%"
-						></div>
-					</div>
-					<div class="progress-label" id="course-label-blocks">
-						0% complete — Start now
-					</div>
-				</a>
-				<a href="js_sandbox.html" class="course-card">
-					<div class="course-icon">⚡</div>
-					<div class="course-title">JavaScript Sandbox</div>
-					<div class="course-desc">
-						Write and run real JavaScript code directly in your browser. No
-						setup needed.
-					</div>
-					<div class="progress-wrap">
-						<div class="progress-fill" style="width: 0%"></div>
-					</div>
-					<div class="progress-label">0% complete — Start now</div>
-				</a>
-				<div class="course-card locked">
-					<div class="course-icon">🐍</div>
-					<div class="course-title">Python for Beginners</div>
-					<div class="course-desc">
-						Learn Python from scratch with guided lessons and challenges. Coming
-						soon.
-					</div>
-					<div class="progress-wrap">
-						<div class="progress-fill" style="width: 0%"></div>
-					</div>
-					<div class="progress-label">Coming soon</div>
-				</div>
-			</div>
+      <div class="section-label">My Courses</div>
+      <div class="courses-grid">
+        <a href="lessons.html" class="course-card">
+          <div class="course-icon">🧱</div>
+          <div class="course-title">Block Coding Basics</div>
+          <div class="course-desc">
+            Build programs visually using AceBlocks drag-and-drop system. No
+            syntax needed.
+          </div>
+          <div class="progress-wrap">
+            <div
+              class="progress-fill"
+              id="course-progress-blocks"
+              style="width: 0%"
+            ></div>
+          </div>
+          <div class="progress-label" id="course-label-blocks">
+            0% complete — Start now
+          </div>
+        </a>
+        <a href="js_sandbox.html" class="course-card">
+          <div class="course-icon">⚡</div>
+          <div class="course-title">JavaScript Sandbox</div>
+          <div class="course-desc">
+            Write and run real JavaScript code directly in your browser. No
+            setup needed.
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="progress-label">0% complete — Start now</div>
+        </a>
+        <div class="course-card locked">
+          <div class="course-icon">🐍</div>
+          <div class="course-title">Python for Beginners</div>
+          <div class="course-desc">
+            Learn Python from scratch with guided lessons and challenges. Coming
+            soon.
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="progress-label">Coming soon</div>
+        </div>
+      </div>
 
-			<div class="badges-section">
-				<div class="section-label">Your Badges</div>
-				<div class="badges-row">
-					<span class="badge">🎉 Account Created</span>
-					<span class="badge locked"
-					      id="badge-first-lesson"
-					>🏆 First Lesson</span>
-					<span class="badge locked">🔥 7-Day Streak</span>
-					<span class="badge locked">⚡ First Challenge</span>
-					<span class="badge locked"
-					      id="badge-course-complete"
-					>🎓 Course Complete</span>
-					<span class="badge locked">🌟 Top of Class</span>
-				</div>
-			</div>
-		</main>
+      <div class="badges-section">
+        <div class="section-label">Your Badges</div>
+        <div class="badges-row">
+          <span class="badge">🎉 Account Created</span>
+          <span class="badge locked" id="badge-first-lesson"
+            >🏆 First Lesson</span
+          >
+          <span class="badge locked">🔥 7-Day Streak</span>
+          <span class="badge locked">⚡ First Challenge</span>
+          <span class="badge locked" id="badge-course-complete"
+            >🎓 Course Complete</span
+          >
+          <span class="badge locked">🌟 Top of Class</span>
+        </div>
+      </div>
+    </main>
 
-		<footer>
-			<div class="footer-logo">AceBlocks</div>
-			<p>© 2026 AceBlocks — Coding for the Future</p>
-			<p>Created by Jace Glover</p>
-		</footer>
-	</body>
+    <footer>
+      <div class="footer-logo">AceBlocks</div>
+      <p>© 2026 AceBlocks — Coding for the Future</p>
+      <p>Created by Jace Glover</p>
+    </footer>
+  </body>
 </html>

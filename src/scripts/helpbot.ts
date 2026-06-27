@@ -26,8 +26,8 @@ function addMessage(sender: string, text: string) {
 function getBotResponse(input: string): string {
   if (input.includes("what is aceblocks") || input.includes("about")) {
     return "AceBlocks is your awesome project platform 😎";
-  } else if (input.includes("help")) { //keep help inputs ALPHABETICAL.
+  } else if (input.includes("help")) {
+    //keep help inputs ALPHABETICAL.
     return "About: What AceBlocks is about. \n Help: Shows availible commands.";
-  } else
-    return "Hmm... I don't know that yet 🤔 try asking something else!";
+  } else return "Hmm... I don't know that yet 🤔 try asking something else!";
 }

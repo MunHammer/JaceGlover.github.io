@@ -28,12 +28,12 @@ If you have ideas for new features or improvements:
 1. Fork the repository
 2. Create a new branch
 3. Setup tooling
-    1. Install node, and npm https://nodejs.org/en/download
-    2. Install tools using `npm ci`
+   1. Install node, and npm https://nodejs.org/en/download
+   2. Install tools using `npm ci`
 4. Make your changes
 5. Test your changes
-    - Run `tsc --watch` to test TypeScript code while making changes
-    - Run a web server of your choice to test everything working together
+   - Run `tsc --watch` to test TypeScript code while making changes
+   - Run a web server of your choice to test everything working together
 6. Submit a Pull Request
 
 ## Coding Guidelines

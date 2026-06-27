@@ -1,7 +1,7 @@
 enum Mode {
   Js = "js",
   Html = "html",
-  Css = "css"
+  Css = "css",
 }
 // ── DEFAULT CODE ──────────────────────────────────────────────
 const DEFAULTS = {
@@ -87,11 +87,15 @@ let files = {
 const codeInput = document.getElementById("code-input") as HTMLTextAreaElement;
 const lineNumbers = document.getElementById("line-numbers") as HTMLDivElement;
 const preview = document.getElementById("preview") as HTMLIFrameElement;
-const consoleOutput = document.getElementById("console-output") as HTMLDivElement;
+const consoleOutput = document.getElementById(
+  "console-output",
+) as HTMLDivElement;
 const fileTabs = document.getElementById("file-tabs") as HTMLDivElement;
 const modeJs = document.getElementById("mode-js") as HTMLButtonElement;
 const modeHtml = document.getElementById("mode-html") as HTMLButtonElement;
-const btnClear = document.getElementById("btn-clear-console") as HTMLButtonElement;
+const btnClear = document.getElementById(
+  "btn-clear-console",
+) as HTMLButtonElement;
 const btnRun = document.getElementById("btn-run") as HTMLButtonElement;
 const btnReset = document.getElementById("btn-reset") as HTMLButtonElement;
 const handle = document.getElementById("resize-handle") as HTMLDivElement;
@@ -99,17 +103,33 @@ const editorPanel = document.getElementById("editor-panel") as HTMLDivElement;
 const domWorkspace = document.querySelector(".workspace") as HTMLDivElement;
 
 // ── ASSERTING TYPES ───────────────────────────────────────────
-if (![codeInput instanceof HTMLTextAreaElement, lineNumbers instanceof HTMLDivElement, preview instanceof HTMLIFrameElement, consoleOutput instanceof HTMLDivElement, fileTabs instanceof HTMLDivElement, modeJs instanceof HTMLButtonElement, modeHtml instanceof HTMLButtonElement, btnClear instanceof HTMLButtonElement, btnRun instanceof HTMLButtonElement, btnReset instanceof HTMLButtonElement, handle instanceof HTMLDivElement, editorPanel instanceof HTMLDivElement, domWorkspace instanceof HTMLDivElement].some((element) => {
-  return element;
-})) throw new ReferenceError();
+if (
+  ![
+    codeInput instanceof HTMLTextAreaElement,
+    lineNumbers instanceof HTMLDivElement,
+    preview instanceof HTMLIFrameElement,
+    consoleOutput instanceof HTMLDivElement,
+    fileTabs instanceof HTMLDivElement,
+    modeJs instanceof HTMLButtonElement,
+    modeHtml instanceof HTMLButtonElement,
+    btnClear instanceof HTMLButtonElement,
+    btnRun instanceof HTMLButtonElement,
+    btnReset instanceof HTMLButtonElement,
+    handle instanceof HTMLDivElement,
+    editorPanel instanceof HTMLDivElement,
+    domWorkspace instanceof HTMLDivElement,
+  ].some((element) => {
+    return element;
+  })
+)
+  throw new ReferenceError();
 
 // ── LINE NUMBERS ──────────────────────────────────────────────
 function updateLineNumbers() {
   const lines = codeInput.value.split("\n").length;
-  lineNumbers.innerHTML = Array.from(
-    { length: lines },
-    (_, i) => i + 1,
-  ).join("<br>");
+  lineNumbers.innerHTML = Array.from({ length: lines }, (_, i) => i + 1).join(
+    "<br>",
+  );
 }
 
 codeInput.addEventListener("input", updateLineNumbers);
@@ -162,11 +182,13 @@ function setMode(newMode: Mode) {
 }
 
 // ── FILE TABS (HTML mode) ─────────────────────────────────────
-const tabs = document.querySelectorAll(".file-tab") as NodeListOf<HTMLButtonElement>;
+const tabs = document.querySelectorAll(
+  ".file-tab",
+) as NodeListOf<HTMLButtonElement>;
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     files[activeFile] = codeInput.value;
-    const file = tab.dataset["file"]
+    const file = tab.dataset["file"];
     switch (file) {
       case undefined:
         throw new ReferenceError();
@@ -206,11 +228,11 @@ function addLog(msg: string, type = "log") {
   if (empty) empty.remove();
 
   const labels: Record<string, string> = {
-    "log": "LOG",
-    "error": "ERR",
-    "warn": "WARN",
-    "info": "INF",
-    "system": "···",
+    log: "LOG",
+    error: "ERR",
+    warn: "WARN",
+    info: "INF",
+    system: "···",
   };
   const line = document.createElement("div");
   line.className = `log-line ${type}`;
@@ -220,10 +242,7 @@ function addLog(msg: string, type = "log") {
 }
 
 function escapeHtml(str: string) {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 btnClear.addEventListener("click", clearConsole);
