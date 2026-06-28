@@ -19,6 +19,11 @@ import {
 // Importing types
 import type { User } from "firebase/auth";
 
+enum Redirects {
+  Dashboard = "/dashboard",
+  TeacherDashboard = "teacher-dashboard.html",
+}
+
 const firebaseConfig = {
   apiKey: "AIzaSyA3PF0jklshcBZLm4Tm_-K10RUok15Mu3U",
   authDomain: "aceblocks.firebaseapp.com",
@@ -37,12 +42,14 @@ const provider = new GoogleAuthProvider();
 // ── Role helper ───────────────────────────────────────
 async function getRedirectUrl(user: User) {
   const snap = await getDoc(doc(db, "users", user.uid));
+  // Why is there a difference between teacher-dashboard, and dashboard?
+  // teacher-dashboard doesn't exist, as well
   if (snap.exists() && snap.data()["role"] === "teacher")
-    return "teacher-dashboard.html";
+    return Redirects.TeacherDashboard;
   // Also check teachers collection (for Google sign-in teachers)
   const tsnap = await getDoc(doc(db, "teachers", user.uid));
-  if (tsnap.exists()) return "teacher-dashboard.html";
-  return "dashboard.html";
+  if (tsnap.exists()) return Redirects.TeacherDashboard;
+  return Redirects.Dashboard;
 }
 
 // Redirect already-logged-in users to the right dashboard
@@ -221,8 +228,8 @@ async function handleSignUp() {
     setTimeout(() => {
       window.location.href =
         selectedRole === "teacher"
-          ? "teacher-dashboard.html"
-          : "dashboard.html";
+          ? Redirects.TeacherDashboard
+          : Redirects.Dashboard;
     }, 700);
   } catch (e: any) {
     showMsg(friendlyError(e.code), "error");

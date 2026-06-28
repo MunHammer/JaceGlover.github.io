@@ -1,7 +1,7 @@
 /**
  * AceBlocks Guided Tour
- * Add to both index.html and lessons.html just before </body>:
- *   <script src="scripts/tour.js" defer></script>
+ * Add to both index.html and lessons/index.html just before </body>:
+ *   <script src="/scripts/tour.js" defer></script>
  */
 
 class Tour {

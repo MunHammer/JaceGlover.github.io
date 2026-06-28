@@ -32,7 +32,7 @@ function main() {
 
   onAuthStateChanged(auth, async (user) => {
     if (user === null) {
-      window.location.href = "login.html";
+      window.location.href = "/login";
       return;
     }
 
@@ -90,7 +90,7 @@ function main() {
       { merge: true },
     );
 
-    // Also keep localStorage in sync so lessons.html still works
+    // Also keep localStorage in sync so lessons/index.html still works
     if (completed > 0) {
       localStorage.setItem("aceblocksLesson", String(completed + 1));
     }
@@ -162,7 +162,7 @@ function main() {
 
   document.getElementById("btn-logout")?.addEventListener("click", async () => {
     await signOut(auth);
-    window.location.href = "login.html";
+    window.location.href = "/login";
   });
 }
 main();
