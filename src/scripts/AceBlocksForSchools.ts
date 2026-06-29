@@ -46,7 +46,6 @@ function goDown() {
 
 // ── SCROLL REVEAL ──
 
-function main() {
   typeWriter();
   const observer = new IntersectionObserver(
     (entries) => {
