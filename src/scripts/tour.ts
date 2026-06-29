@@ -1,104 +1,123 @@
 /**
  * AceBlocks Guided Tour
- * Add to both index.html and lessons.html just before </body>:
- *   <script src="scripts/tour.js" defer></script>
+ * Add to both index.html and lessons/index.html just before </body>:
+ *   <script src="/scripts/tour.js" defer></script>
  */
 
+class Tour {
+  selector: string;
+  title: string;
+  text: string;
+  position: string;
+  last: boolean;
+  constructor(
+    selector: string,
+    title: string,
+    text: string,
+    position: string,
+    last?: boolean,
+  ) {
+    this.selector = selector;
+    this.title = title;
+    this.text = text;
+    this.position = position;
+    last === undefined ? (this.last = false) : (this.last = last);
+  }
+}
 (function () {
-
-  const TOURS = {
-    'index': [
-      {
-        selector: '.logo',
-        title: '👋 Welcome to AceBlocks!',
-        text: "This is AceBlocks — a beginner-friendly visual coding platform. Let's show you around.",
-        position: 'bottom',
-      },
-      {
-        selector: 'nav .nav-cta',
-        title: '🚀 Start Learning',
-        text: 'Click here anytime to jump straight into the coding lessons.',
-        position: 'bottom',
-      },
-      {
-        selector: '.hero h1',
-        title: '🧱 Build Code Visually',
-        text: 'No typing complex syntax — drag and drop blocks to write real programs.',
-        position: 'bottom',
-      },
-      {
-        selector: '#features',
-        title: '⚡ Core Features',
-        text: 'Scroll down to explore everything AceBlocks offers — lessons, sandboxes, and more.',
-        position: 'top',
-      },
-      {
-        selector: '#team',
-        title: '🤝 Meet the Team',
-        text: "We're a small team building tools to make coding accessible for everyone.",
-        position: 'top',
-      },
-      {
-        selector: '.cta-banner',
-        title: "🎉 You're all set!",
-        text: "That's the tour! Hit Start Learning whenever you're ready. Good luck!",
-        position: 'top',
-        last: true,
-      },
+  const TOURS: Record<string, Array<Tour>> = {
+    index: [
+      new Tour(
+        ".logo",
+        "👋 Welcome to AceBlocks!",
+        "This is AceBlocks — a beginner-friendly visual coding platform. Let's show you around.",
+        "bottom",
+      ),
+      new Tour(
+        "nav .nav-cta",
+        "🚀 Start Learning",
+        "Click here anytime to jump straight into the coding lessons.",
+        "bottom",
+      ),
+      new Tour(
+        ".hero h1",
+        "🧱 Build Code Visually",
+        "No typing complex syntax — drag and drop blocks to write real programs.",
+        "bottom",
+      ),
+      new Tour(
+        "#features",
+        "⚡ Core Features",
+        "Scroll down to explore everything AceBlocks offers — lessons, sandboxes, and more.",
+        "top",
+      ),
+      new Tour(
+        "#team",
+        "🤝 Meet the Team",
+        "We're a small team building tools to make coding accessible for everyone.",
+        "top",
+      ),
+      new Tour(
+        ".cta-banner",
+        "🎉 You're all set!",
+        "That's the tour! Hit Start Learning whenever you're ready. Good luck!",
+        "top",
+        true,
+      ),
     ],
-    'lessons': [
-      {
-        selector: '.logo',
-        title: '📚 AceBlocks Lessons',
-        text: "Welcome to lessons! Here you'll learn to code step by step using visual blocks.",
-        position: 'bottom',
-      },
-      {
-        selector: '#startBtn',
-        title: '▶ Start Here',
-        text: 'Click this button to begin the lessons. You can pick up where you left off anytime.',
-        position: 'top',
-      },
-      {
-        selector: '.lesson-preview',
-        title: "🗺️ What You'll Learn",
-        text: 'These are all the topics covered across 12 lessons — from Hello World to real logic.',
-        position: 'top',
-      },
-      {
-        selector: '#startBtn',
-        title: "🎉 Ready to code!",
-        text: "That's it — hit Start Lessons and begin your first challenge. Have fun!",
-        position: 'top',
-        last: true,
-      },
+    lessons: [
+      new Tour(
+        ".logo",
+        "📚 AceBlocks Lessons",
+        "Welcome to lessons! Here you'll learn to code step by step using visual blocks.",
+        "bottom",
+      ),
+      new Tour(
+        "#startBtn",
+        "▶ Start Here",
+        "Click this button to begin the lessons. You can pick up where you left off anytime.",
+        "top",
+      ),
+      new Tour(
+        ".lesson-preview",
+        "🗺️ What You'll Learn",
+        "These are all the topics covered across 12 lessons — from Hello World to real logic.",
+        "top",
+      ),
+      new Tour(
+        "#startBtn",
+        "🎉 Ready to code!",
+        "That's it — hit Start Lessons and begin your first challenge. Have fun!",
+        "top",
+        true,
+      ),
     ],
   };
 
   function getPageKey() {
     const path = window.location.pathname;
-    if (path.includes('lessons')) return 'lessons';
-    return 'index';
+    if (path.includes("lessons")) return "lessons";
+    return "index";
   }
 
-  function hasSeenTour(key) {
+  function hasSeenTour(key: string) {
     try {
-      return localStorage.getItem('aceblocks_tour_' + key) === 'done';
-    } catch(e) {
+      return localStorage.getItem("aceblocks_tour_" + key) === "done";
+    } catch (e) {
       return false;
     }
   }
 
-  function markTourDone(key) {
+  function markTourDone(key: string) {
     try {
-      localStorage.setItem('aceblocks_tour_' + key, 'done');
-    } catch(e) {}
+      localStorage.setItem("aceblocks_tour_" + key, "done");
+    } catch (e) {}
   }
 
   function injectStyles() {
-    if (document.getElementById('ab-tour-styles')) return;
-    const style = document.createElement('style');
-    style.id = 'ab-tour-styles';
+    if (document.getElementById("ab-tour-styles")) return;
+    const style = document.createElement("style");
+    style.id = "ab-tour-styles";
     style.textContent = `
       #ab-tour-overlay {
         position: fixed;
@@ -173,55 +192,61 @@
   }
 
   function createTooltip() {
-    const el = document.createElement('div');
-    el.id = 'ab-tour-tooltip';
+    const el = document.createElement("div");
+    el.id = "ab-tour-tooltip";
     document.body.appendChild(el);
     return el;
   }
 
   function removeTooltip() {
-    const el = document.getElementById('ab-tour-tooltip');
+    const el = document.getElementById("ab-tour-tooltip");
     if (el) el.remove();
   }
 
-  function positionTooltip(tooltip, target, position) {
-    const tr  = target.getBoundingClientRect();
-    const tw  = tooltip.offsetWidth;
-    const th  = tooltip.offsetHeight;
+  function positionTooltip(
+    tooltip: HTMLDivElement,
+    target: Element,
+    position: string,
+  ) {
+    const tr = target.getBoundingClientRect();
+    const tw = tooltip.offsetWidth;
+    const th = tooltip.offsetHeight;
     const margin = 16;
-    const vw  = window.innerWidth;
-    const vh  = window.innerHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     let top, left;
-    if (position === 'bottom') {
-      top  = tr.bottom + margin;
+    if (position === "bottom") {
+      top = tr.bottom + margin;
       left = tr.left + tr.width / 2 - tw / 2;
     } else {
-      top  = tr.top - th - margin;
+      top = tr.top - th - margin;
       left = tr.left + tr.width / 2 - tw / 2;
     }
     left = Math.max(12, Math.min(left, vw - tw - 12));
-    top  = Math.max(80, Math.min(top,  vh - th - 12));
-    tooltip.style.top  = top + 'px';
-    tooltip.style.left = left + 'px';
-    const arrow = tooltip.querySelector('.ab-arrow');
+    top = Math.max(80, Math.min(top, vh - th - 12));
+    tooltip.style.top = top + "px";
+    tooltip.style.left = left + "px";
+    const arrow = tooltip.querySelector(".ab-arrow");
     if (arrow) {
-      arrow.className = 'ab-arrow ' + (position === 'bottom' ? 'top' : 'bottom');
+      arrow.className =
+        "ab-arrow " + (position === "bottom" ? "top" : "bottom");
     }
   }
 
-  function runTour(steps, pageKey) {
-    let current = 0;
+  function runTour(steps: Tour[], pageKey: string) {
     injectStyles();
 
-    const overlay = document.createElement('div');
-    overlay.id = 'ab-tour-overlay';
+    const overlay = document.createElement("div");
+    overlay.id = "ab-tour-overlay";
     document.body.appendChild(overlay);
 
     // Mark as done IMMEDIATELY so even if they close the tab mid-tour it won't repeat
     markTourDone(pageKey);
 
-    function showStep(index) {
-      document.querySelectorAll('.ab-tour-highlight').forEach(el => el.classList.remove('ab-tour-highlight'));
+    function showStep(index: number) {
+      document
+        .querySelectorAll(".ab-tour-highlight")
+        .forEach((el) => el.classList.remove("ab-tour-highlight"));
       removeTooltip();
 
       if (index >= steps.length) {
@@ -229,14 +254,18 @@
         return;
       }
 
-      const step   = steps[index];
+      const step = steps[index];
+      if (step === undefined) throw new ReferenceError();
       const target = document.querySelector(step.selector);
-      if (!target) { showStep(index + 1); return; }
+      if (!target) {
+        showStep(index + 1);
+        return;
+      }
 
-      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
 
       setTimeout(() => {
-        target.classList.add('ab-tour-highlight');
+        target.classList.add("ab-tour-highlight");
 
         const tooltip = createTooltip();
         tooltip.innerHTML = `
@@ -247,22 +276,26 @@
           <div class="ab-tour-actions">
             <button class="ab-skip">Skip tour</button>
             <div class="ab-dots">
-              ${steps.map((_, i) => `<div class="ab-dot${i === index ? ' active' : ''}"></div>`).join('')}
+              ${steps.map((_, i) => `<div class="ab-dot${i === index ? " active" : ""}"></div>`).join("")}
             </div>
-            <button class="ab-next">${step.last ? 'Finish 🎉' : 'Next →'}</button>
+            <button class="ab-next">${step.last ? "Finish 🎉" : "Next →"}</button>
           </div>`;
 
         requestAnimationFrame(() => {
-          positionTooltip(tooltip, target, step.position || 'bottom');
+          positionTooltip(tooltip, target, step.position || "bottom");
         });
 
-        tooltip.querySelector('.ab-next').addEventListener('click', () => showStep(index + 1));
-        tooltip.querySelector('.ab-skip').addEventListener('click', endTour);
+        tooltip
+          .querySelector(".ab-next")
+          ?.addEventListener("click", () => showStep(index + 1));
+        tooltip.querySelector(".ab-skip")?.addEventListener("click", endTour);
       }, 400);
     }
 
     function endTour() {
-      document.querySelectorAll('.ab-tour-highlight').forEach(el => el.classList.remove('ab-tour-highlight'));
+      document
+        .querySelectorAll(".ab-tour-highlight")
+        .forEach((el) => el.classList.remove("ab-tour-highlight"));
       removeTooltip();
       overlay.remove();
       addRelaunchButton(steps, pageKey);
@@ -271,12 +304,12 @@
     showStep(0);
   }
 
-  function addRelaunchButton(steps, pageKey) {
-    if (document.getElementById('ab-tour-relaunch')) return;
-    const btn = document.createElement('button');
-    btn.id = 'ab-tour-relaunch';
+  function addRelaunchButton(steps: Tour[], pageKey: string) {
+    if (document.getElementById("ab-tour-relaunch")) return;
+    const btn = document.createElement("button");
+    btn.id = "ab-tour-relaunch";
     btn.innerHTML = `<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Tour`;
-    btn.addEventListener('click', () => {
+    btn.addEventListener("click", () => {
       btn.remove();
       runTour(steps, pageKey);
     });
@@ -285,7 +318,7 @@
 
   function init() {
     const pageKey = getPageKey();
-    const steps   = TOURS[pageKey];
+    const steps = TOURS[pageKey];
     if (!steps) return;
 
     if (hasSeenTour(pageKey)) {
@@ -297,10 +330,9 @@
     setTimeout(() => runTour(steps, pageKey), 800);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
   } else {
     init();
   }
-
 })();

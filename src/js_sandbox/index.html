@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="icon" href="/images/AceBlocksLogo.png" type="image/x-png" />
+    <meta charset="UTF-8" />
+    <title>AceBlocks | Sandbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="/styles/js_sandbox.css" rel="stylesheet" />
+    <script src="/scripts/js_sandbox.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="logo">AceBlocks</a>
+
+      <div class="header-center">
+        <div class="mode-tabs">
+          <button class="mode-tab active" id="mode-js">JavaScript</button>
+          <button class="mode-tab" id="mode-html">HTML + CSS + JS</button>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <nav><a href="/lessons">Lessons</a></nav>
+        <button class="btn-clear" id="btn-reset">Reset</button>
+        <button class="btn-run" id="btn-run">
+          <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+            <polygon points="5 3 19 12 5 21 5 3" />
+          </svg>
+          Run
+        </button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <!-- EDITOR -->
+      <div class="editor-panel" id="editor-panel">
+        <!-- File tabs (HTML mode only) -->
+        <div class="file-tabs" id="file-tabs" style="display: none">
+          <button class="file-tab active" data-file="html">HTML</button>
+          <button class="file-tab" data-file="css">CSS</button>
+          <button class="file-tab" data-file="js">JS</button>
+        </div>
+
+        <div class="editor-wrap">
+          <div class="line-numbers" id="line-numbers">1</div>
+          <textarea
+            class="code-input"
+            id="code-input"
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- RESIZE HANDLE -->
+      <div class="resize-handle" id="resize-handle"></div>
+
+      <!-- RIGHT: PREVIEW + CONSOLE -->
+      <div class="right-panel">
+        <div class="preview-wrap">
+          <div class="preview-label">Preview</div>
+          <iframe
+            id="preview"
+            sandbox="allow-scripts allow-same-origin"
+          ></iframe>
+        </div>
+
+        <div class="console-wrap">
+          <div class="console-header">
+            <div class="console-title">
+              <span class="console-dot"></span>
+              Console
+            </div>
+            <button class="btn-clear-console" id="btn-clear-console">
+              Clear
+            </button>
+          </div>
+          <div class="console-output" id="console-output">
+            <div class="console-empty">Run your code to see output here.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
